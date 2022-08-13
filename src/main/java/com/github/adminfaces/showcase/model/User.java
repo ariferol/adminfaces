@@ -10,6 +10,8 @@ public class User implements Serializable {
 
     private String password;
 
+    private boolean isAuthenticated;
+    
     private String firstname;
 
     private String lastname;
@@ -43,6 +45,14 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public boolean isIsAuthenticated() {
+        return isAuthenticated;
+    }
+
+    public void setIsAuthenticated(boolean isAuthenticated) {
+        this.isAuthenticated = isAuthenticated;
+    }    
 
     public String getFirstname() {
         return firstname;

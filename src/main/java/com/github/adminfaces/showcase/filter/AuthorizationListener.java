@@ -56,27 +56,25 @@ public class AuthorizationListener implements PhaseListener {
     }
 
     User getUser(FacesContext fc) {
-        User user = fc.getApplication().evaluateExpressionGet(fc, "#{loginControllerBean.user}", User.class);        
-//        User user = (User) fc.getExternalContext().getSessionMap().get("valided_user");
+        User user = fc.getApplication().evaluateExpressionGet(fc, "#{logonMB.user}", User.class);
+        User user2 = (User) fc.getExternalContext().getSessionMap().get("validated_user");
         return user;
     }
 
-    //TODO: Burada user authentication business logic i yazilmalidir
+    /**
+     * Burada user authentication ve authorization business logic i olmalidir
+     */
     boolean isAuthorized(FacesContext fc) {
-        if (fc.getViewRoot().getViewId() == null 
-                || fc.getViewRoot().getViewId().equals("/login.xhtml")
-                ) {
-            return true;
+        boolean isAuthenticatedAndAuthorized = false;
+        if (fc.getViewRoot().getViewId() != null && fc.getViewRoot().getViewId().equals("/login.xhtml")) {
+            isAuthenticatedAndAuthorized = true;
+        } else {
+            User user = getUser(fc);
+            isAuthenticatedAndAuthorized = user != null
+                    && StringUtils.isNotEmpty(user.getUsername())
+                    && user.isIsAuthenticated();
         }
-        if (!fc.getViewRoot().getViewId().equals("/content/logout") 
-                && !fc.getViewRoot().getViewId().endsWith(".xhtml") 
-                && !fc.getViewRoot().getViewId().startsWith("/content")) {
-            return true;
-        }
-        boolean isAuthorized = false;
-        User user = getUser(fc);
-        isAuthorized = user != null && StringUtils.isNotEmpty(user.getUsername());
-        return isAuthorized;
+        return isAuthenticatedAndAuthorized;
     }
-    
+
 }

@@ -58,7 +58,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <pe:gravatar id="userImage"
                              value="nonexisting"/>
-                <span class="hidden-xs">Rafael Pestano</span>
+                <span class="hidden-xs">#{logonMB.user.firstname} #{logonMB.user.lastname}</span>
             </a>
             <ul class="dropdown-menu">
                 <li class="user-header">
@@ -67,7 +67,7 @@
                                      value="rmpestano@gmail.com"/>
                     </div>
                     <p>
-                        Rafael M. Pestano
+                        <h:outputText value="Hosgeldiniz sayin : '#{logonMB.user.firstname} #{logonMB.user.lastname}' " />
                         <small> Java EE Developer </small>
                     </p>
                 </li>
@@ -77,7 +77,7 @@
                             <p:commandLink  styleClass="btn btn-danger"  value="Change password"/>
                         </div>
                         <div class="pull-right">
-                            <p:commandLink id="logout" action="#{logoutMB.doLogout}"  title="Logoff">
+                            <p:commandLink id="logout" action="#{logonMB.doLogout}"  title="Cikis Yap">
                                 <i class="fa fa-sign-out fa-2x"></i>
                             </p:commandLink>
                         </div>

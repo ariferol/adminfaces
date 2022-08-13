@@ -91,14 +91,14 @@
                     <p:messages closable="true" />
                     <p:growl sticky="true"/>
                     <div class="form-group has-feedback">
-                        <p:inputText value="#{logonMB.email}" type="email" styleClass="form-control" placeholder="Email"
+                        <p:inputText value="#{logonMB.user.username}" type="email" styleClass="form-control" placeholder="Kullanici adi"
                                      required="true" autocomplete="off"
                                      requiredMessage="Email is required."/>
                         <i class="fa fa-envelope form-control-feedback"></i>
                     </div>
                     <div class="form-group has-feedback">
-                        <p:inputText value="#{logonMB.password}" type="password" styleClass="form-control"
-                                     placeholder="Password" required="true" autocomplete="off"
+                        <p:inputText value="#{logonMB.user.password}" type="password" styleClass="form-control"
+                                     placeholder="Sifre" required="true" autocomplete="off"
                                      requiredMessage="Password is required."/>
                         <i class="fa fa-lock form-control-feedback" style="font-size: 18px" ></i>
                     </div>
