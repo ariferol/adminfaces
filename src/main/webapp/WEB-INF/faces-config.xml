@@ -21,7 +21,7 @@
     </application>
     
     <lifecycle>
-        <phase-listener>com.github.adminfaces.showcase.filter.AuthorizationListener</phase-listener>
+        <phase-listener>com.github.adminfaces.showcase.listener.AuthorizationListener</phase-listener>
     </lifecycle>
     <navigation-rule>
         <from-view-id>*</from-view-id>

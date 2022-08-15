@@ -1,5 +1,6 @@
 package com.github.adminfaces.showcase.bean;
 
+import com.github.adminfaces.showcase.analytics.util.AuthUtil;
 import com.github.adminfaces.showcase.model.User;
 import java.io.IOException;
 import org.omnifaces.cdi.ViewScoped;
@@ -17,6 +18,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by rmpestano on 04/02/17.
@@ -72,20 +74,25 @@ public class LogonMB implements Serializable {
      * BS methods
      */
     public String doLogon() {
-        Faces.getFlash().setKeepMessages(true);
-
-//        return "/index.xhtml?faces-redirect=true";
-        if (this.user != null
-                && this.user.getUsername() != null && this.user.getUsername().equals("admin")
-                && this.user.getPassword() != null && this.user.getPassword().equals("admin")) {
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("validated_user", this.user);
-            this.user.setIsAuthenticated(true);
-            this.user.setFirstname("Arif");
-            this.user.setLastname("EROL");
-            return "/index.xhtml?faces-redirect=true";
+        if (this.user != null) {
+            Faces.getFlash().setKeepMessages(true);
+            //TODO: hashedPassword degeri db den yada ldap tan otomatik alinacak;MD5 en zayif hash algoritmasidir, bunu SHA li hash algoritmalara cek.
+            String hashedPassword = AuthUtil.generateMd5Hash(this.user.getPassword());
+            if (StringUtils.isNotEmpty(this.user.getUsername()) && this.user.getUsername().equals("admin")
+                    && AuthUtil.isUserPasswordValidate(this.user.getPassword(), hashedPassword)) {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("validated_user", this.user);
+                this.user.setIsAuthenticated(true);
+                this.user.setFirstname("Arif");
+                this.user.setLastname("EROL");
+                return "/index.xhtml?faces-redirect=true";
+            } else {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials"));
+                Messages.addGlobalError("Kullanici Adi veya Sifre Hatali!");
+                return "/login.xhtml?faces-redirect=true";
+            }
         } else {
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials"));
-            Messages.addGlobalError("Kullanici Adi veya Sifre Hatali!");
+            Messages.addGlobalError("Kullanici Bilgisi Bulunamadi!");
             return "/login.xhtml?faces-redirect=true";
         }
     }

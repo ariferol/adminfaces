@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.adminfaces.showcase.filter;
+package com.github.adminfaces.showcase.listener;
 
 import com.github.adminfaces.showcase.model.User;
 import javax.enterprise.inject.Default;
